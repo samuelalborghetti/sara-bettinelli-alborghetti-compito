@@ -38,31 +38,75 @@ def chiediDataNascita():
             print("Errore nell'inserimento dei dati. Riprova.")
 
 
-def chiediDataNascita():
+def chiediDataNascita() -> datetime:
     while True:
-        data_input = input("Inserisci la data di nascita (GG/MM/AAAA): ")
-        
+        data_str = input("Inserisci la data di nascita (GG/MM/AAAA): ").strip()
         try:
-            data = datetime.strptime(data_input, "%d/%m/%Y")
+            data = datetime.strptime(data_str, "%d/%m/%Y")
+            # Controllo che la data non sia nel futuro
+            if data > datetime.now():
+                print("Errore: la data di nascita non può essere nel futuro. Riprova.")
+                continue
             return data
-        
         except ValueError:
-            print("Data non valida. Usa il formato GG/MM/AAAA.")
+            print("Errore: formato data non valido. Usa GG/MM/AAAA (es. 15/03/1990).")
 
 
-def calcolaCodiceComune() -> str:
-    comuni = {
+def calcolaCodiceComune(comune: str) -> str:
+    # Dizionario di esempio con alcuni comuni italiani
+    CODICI_COMUNI = {
         "ROMA": "H501",
         "MILANO": "F205",
-        "TORINO": "L219",
         "NAPOLI": "F839",
-        "FIRENZE": "D612"
+        "TORINO": "L219",
+        "PALERMO": "G273",
+        "GENOVA": "D969",
+        "BOLOGNA": "A944",
+        "FIRENZE": "D612",
+        "BARI": "A662",
+        "CATANIA": "C351",
+        "VENEZIA": "L736",
+        "VERONA": "L781",
+        "MESSINA": "F158",
+        "PADOVA": "G224",
+        "TRIESTE": "L424",
+        "BRESCIA": "B157",
+        "TARANTO": "L049",
+        "PRATO": "G999",
+        "REGGIO CALABRIA": "H224",
+        "MODENA": "F257",
+        "REGGIO EMILIA": "H223",
+        "PERUGIA": "G478",
+        "RAVENNA": "H199",
+        "LIVORNO": "E625",
+        "CAGLIARI": "B354",
     }
+
+    comune_normalizzato = comune.strip().upper()
+    codice = CODICI_COMUNI.get(comune_normalizzato)
+
+    if codice is None:
+        raise ValueError(f"Comune '{comune}' non trovato nel database. "
+                         "Verifica il nome o aggiorna il dizionario.")
+    return codice
+
+
+def calcolaCodiceAnno(data_nascita: datetime) -> str:
+    anno = data_nascita.year
+    ultime_due_cifre = anno % 100      
+    return f"{ultime_due_cifre:02d}"      
+
+
+def calcolaCodiceCognome(cognome: str) -> str:
+    VOCALI = "AEIOU"
+    cognome = cognome.upper()
+
+    consonanti = [c for c in cognome if c.isalpha() and c not in VOCALI]
+    vocali     = [c for c in cognome if c.isalpha() and c in VOCALI]
+
+    lettere = consonanti + vocali          
     
-    while True:
-        nome_comune = input("Inserisci il comune di nascita: ").strip().upper()
-        
-        if nome_comune in comuni:
-            return comuni[nome_comune]
-        else:
-            print("Comune non trovato. Riprova.")
+    while len(lettere) < 3:
+        lettere.append('X')
+
+    return ''.join(lettere[:3])
