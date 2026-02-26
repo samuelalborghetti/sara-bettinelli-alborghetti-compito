@@ -22,23 +22,7 @@ def chiediCognome():
         else:
             print("Cognome non valido. Inserisci solo lettere.")
 
-
 def chiediDataNascita():
-    controllo=True
-    while controllo:
-        try:
-            dataNascita=input("Inserici la data di nascita del nuovo atleta (formato: gg/mm/aaaa): ")
-            giorno, mese, anno = map(int, dataNascita.split('/'))
-            if 1 <= giorno <= 31 and 1 <= mese <= 12 and anno > 1900:
-                controllo=False
-                return dataNascita
-            else:
-                print("Data di nascita non valida.")
-        except:
-            print("Errore nell'inserimento dei dati. Riprova.")
-
-
-def chiediDataNascita() -> datetime:
     while True:
         data_str = input("Inserisci la data di nascita (GG/MM/AAAA): ").strip()
         try:
@@ -52,7 +36,7 @@ def chiediDataNascita() -> datetime:
             print("Errore: formato data non valido. Usa GG/MM/AAAA (es. 15/03/1990).")
 
 
-def calcolaCodiceComune(comune: str) -> str:
+def calcolaCodiceComune(comune):
     # Dizionario di esempio con alcuni comuni italiani
     CODICI_COMUNI = {
         "ROMA": "H501",
@@ -91,13 +75,13 @@ def calcolaCodiceComune(comune: str) -> str:
     return codice
 
 
-def calcolaCodiceAnno(data_nascita: datetime) -> str:
+def calcolaCodiceAnno(data_nascita):
     anno = data_nascita.year
     ultime_due_cifre = anno % 100      
     return f"{ultime_due_cifre:02d}"      
 
 
-def calcolaCodiceCognome(cognome: str) -> str:
+def calcolaCodiceCognome(cognome):
     VOCALI = "AEIOU"
     cognome = cognome.upper()
 
@@ -105,7 +89,7 @@ def calcolaCodiceCognome(cognome: str) -> str:
     vocali     = [c for c in cognome if c.isalpha() and c in VOCALI]
 
     lettere = consonanti + vocali          
-    
+
     while len(lettere) < 3:
         lettere.append('X')
 
