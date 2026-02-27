@@ -6,7 +6,7 @@ def chiediComune(comuni):
     fine=False
    
     while not fine:
-        comune=input('inserisci il comune nel quale sei nato:').lower()
+        comune=input('inserisci il comune nel quale sei nato:').lower().strip()
         if comune not in comuni:
             fine=False
         else:
@@ -55,4 +55,4 @@ def rimuoviSpazi(elemento):
    
    
  
-comuni=['bergamo','stezzano','brembate','verdellino','verdello']
+comuni=['bergamo','stezzano','brembate','verdellino','verdello','dalmine','gessate','mozzo','curno','treviolo']
