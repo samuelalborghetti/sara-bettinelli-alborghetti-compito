@@ -1,69 +1,10 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+"""# NOTE: Questo file contiene l'unione dei contenuti presenti nei vari branch.
+# Repo: samuelalborghetti/sara-bettinelli-alborghetti-compito
+
+# ===============================
+# BRANCH: master | FILE: codice.py
+# Source: https://github.com/samuelalborghetti/sara-bettinelli-alborghetti-compito/blob/a5d14069fda8098c0d7280db16e2c4fa1c96fcad/codice.py
+# ===============================
 
 from datetime import datetime
 
@@ -76,7 +17,6 @@ def rimuoviLettereAccentate(testo):
 
 def rimuoviSpazi(testo):
     return testo.replace(" ", "")
-
 
 def chiediCognome():
     while True:
@@ -101,7 +41,6 @@ def chiediDataNascita():
             return data
         except ValueError:
             print("Errore: formato data non valido. Usa GG/MM/AAAA (es. 15/03/1990).")
-
 
 def calcolaCodiceComune(comune):
     # Dizionario di esempio con alcuni comuni italiani
@@ -140,7 +79,6 @@ def calcolaCodiceComune(comune):
         raise ValueError(f"Comune '{comune}' non trovato nel database. Verifica il nome o aggiorna il dizionario.")
     return codice
 
-
 def calcolaCodiceAnno(data_nascita):
     anno = data_nascita.year
     ultime_due_cifre = anno % 100      
@@ -161,3 +99,140 @@ def calcolaCodiceCognome(cognome):
 
     risultato = lettere[0] + lettere[1] + lettere[2]
     return risultato
+
+# ===============================
+# BRANCH: master | FILE: c.py
+# Source: https://github.com/samuelalborghetti/sara-bettinelli-alborghetti-compito/blob/a5d14069fda8098c0d7280db16e2c4fa1c96fcad/c.py
+# ===============================
+
+from datetime import date
+
+def rimuoviLettereAccentate(parola):
+    parola_nuova= parola.replace('à','a').replace('ò','o').replace('ù','u').replace('è','e').replace('é','e').replace('ì','i').replace('ñ','n').replace('ö','o').replace('Ö','o').replace('Ä','a').replace('ä','a')
+    return parola_nuova
+
+def chiediComune(comuni):
+    fine=False
+   
+    while not fine:
+        comune=input('inserisci il comune nel quale sei nato:').lower().strip()
+        if comune not in comuni:
+            fine=False
+        else:
+            return comune
+
+def calcolaCodiceMese(data):
+    codice_mesi={
+        1:'A',
+        2:'B',
+        3:'C',
+        4:'D',
+        5:'E',
+        6:'H',
+        7:'L',
+        8:'M',
+        9:'P',
+        10:'R',
+        11:'S',
+        12:'T'
+    }
+    mese=data.month
+    if mese not in codice_mesi:
+        raise ValueError("mese inesistente")
+    else:
+        return codice_mesi[mese]
+
+def calcolaCodiceNome(nome):
+    consonante=''
+    vocale=''
+    nome=nome.upper()
+    for c in nome:
+        if c in "BCDFGHJKLMNPQRSTVWXYZ":
+            consonante += c
+        elif c in "AEIOU":
+            vocale += c
+    if len(consonante) >= 4:
+       return consonante[0] + consonante[2] + consonante[3]
+    cd = (consonante + vocali)[:3]
+    while len(cd) < 3:
+            cd += "X"
+    return cd
+
+def rimuoviSpazi(elemento):
+    elemento=elemento.replace(" ","")
+    return elemento
+
+comuni=['bergamo','stezzano','brembate','verdellino','verdello','dalmine','gessate','mozzo','curno','treviolo']
+
+
+# ===============================
+# BRANCH: samuel | FILE: codice.py
+# Source: https://github.com/samuelalborghetti/sara-bettinelli-alborghetti-compito/blob/853cbb74dd59521fb346dee37bf2d8c905cf63db/codice.py
+# ===============================
+
+def chiediNome() :
+    controllo = True
+    while controllo:
+        nome = input("Inserisci il nome: ").strip()
+        if nome.isalpha():
+            #nome = rimuoviLettereAccentate(nome)
+            #nome = rimuoviSpazi(nome)
+            return nome
+        else:
+            print("Nome non valido. Inserisci solo lettere.")
+   
+
+def chiediSesso() :
+    controllo = True
+    while controllo:
+        sesso = input("Inserisci il sesso (m/f): ").strip().lower()
+        if sesso in ['m', 'maschio', 'uomo']:
+            return 'm'
+        elif sesso in ['f', 'femmina', 'donna']:
+            return 'f'
+        print(" Valore non valido. Inserisci 'm' per maschio o 'f' per femmina.")
+
+def calcolaCodiceGiorno(data_nascita, sesso):
+    giorno = data_nascita.day
+    if sesso == 'f':
+        giorno += 40
+    if giorno < 10:
+        return "0" + str(giorno)
+    else:
+        return str(giorno)
+
+def calcolaCodiceControllo(cf_parziale):
+    valori_dispari = {
+        '0':1,  '1':0,  '2':5,  '3':7,  '4':9,  '5':13, '6':15, '7':17, '8':19, '9':21,
+        'A':1,  'B':0,  'C':5,  'D':7,  'E':9,  'F':13, 'G':15, 'H':17, 'I':19, 'J':21,
+        'K':2,  'L':4,  'M':18, 'N':20, 'O':11, 'P':3,  'Q':6,  'R':8,  'S':12, 'T':14,
+        'U':16, 'V':10, 'W':22, 'X':25, 'Y':24, 'Z':23
+    }
+    lettere = ['A','B','C','D','E','F','G','H','I','J','K','L','M',
+               'N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+
+    cf_parziale = cf_parziale.upper()
+    somma = 0
+    posizione = 1
+    for carattere in cf_parziale:
+        if posizione % 2 == 1:
+            somma += valori_dispari[carattere]
+        else:
+            if carattere.isdigit():
+                somma += int(carattere)
+            else:
+                somma += lettere.index(carattere)
+        posizione += 1
+    return lettere[somma % 26]
+
+def calcolaCodiceFiscale(cognome, nome, data_nascita, sesso, comune):
+    cf = ""  
+    #cf += calcolaCodiceCognome(cognome)
+    #cf += calcolaCodiceNome(nome)
+    #cf += calcolaCodiceAnno(data_nascita)
+    #cf += calcolaCodiceMese(data_nascita)
+    #cf += calcolaCodiceGiorno(data_nascita, sesso)
+    #cf += calcolaCodiceComune(comune)
+    #cf += calcolaCodiceControllo(cf)
+    return cf
+"""
