@@ -70,8 +70,7 @@ def calcolaCodiceComune(comune):
     codice = CODICI_COMUNI.get(comune_normalizzato)
 
     if codice is None:
-        raise ValueError(f"Comune '{comune}' non trovato nel database. "
-                         "Verifica il nome o aggiorna il dizionario.")
+        raise ValueError(f"Comune '{comune}' non trovato nel database. Verifica il nome o aggiorna il dizionario.")
     return codice
 
 
@@ -93,4 +92,5 @@ def calcolaCodiceCognome(cognome):
     while len(lettere) < 3:
         lettere.append('X')
 
-    return ''.join(lettere[:3])
+    risultato = lettere[0] + lettere[1] + lettere[2]
+    return risultato
