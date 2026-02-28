@@ -1,11 +1,3 @@
-"""# NOTE: Questo file contiene l'unione dei contenuti presenti nei vari branch.
-# Repo: samuelalborghetti/sara-bettinelli-alborghetti-compito
-
-# ===============================
-# BRANCH: master | FILE: codice.py
-# Source: https://github.com/samuelalborghetti/sara-bettinelli-alborghetti-compito/blob/a5d14069fda8098c0d7280db16e2c4fa1c96fcad/codice.py
-# ===============================
-
 from datetime import datetime
 
 def rimuoviLettereAccentate(testo):
@@ -34,7 +26,6 @@ def chiediDataNascita():
         data_str = input("Inserisci la data di nascita (GG/MM/AAAA): ").strip()
         try:
             data = datetime.strptime(data_str, "%d/%m/%Y")
-            # Controllo che la data non sia nel futuro
             if data > datetime.now():
                 print("Errore: la data di nascita non può essere nel futuro. Riprova.")
                 continue
@@ -43,7 +34,6 @@ def chiediDataNascita():
             print("Errore: formato data non valido. Usa GG/MM/AAAA (es. 15/03/1990).")
 
 def calcolaCodiceComune(comune):
-    # Dizionario di esempio con alcuni comuni italiani
     CODICI_COMUNI = {
         "ROMA": "H501",
         "MILANO": "F205",
@@ -70,6 +60,16 @@ def calcolaCodiceComune(comune):
         "RAVENNA": "H199",
         "LIVORNO": "E625",
         "CAGLIARI": "B354",
+        "BERGAMO": "A794",
+        "STEZZANO": "I951",
+        "BREMBATE": "B137",
+        "VERDELLINO": "L752",
+        "VERDELLO": "L753",
+        "DALMINE": "D245",
+        "GESSATE": "D995",
+        "MOZZO": "F791",
+        "CURNO": "D221",
+        "TREVIOLO": "L404",
     }
 
     comune_normalizzato = comune.strip().upper()
@@ -99,17 +99,6 @@ def calcolaCodiceCognome(cognome):
 
     risultato = lettere[0] + lettere[1] + lettere[2]
     return risultato
-
-# ===============================
-# BRANCH: master | FILE: c.py
-# Source: https://github.com/samuelalborghetti/sara-bettinelli-alborghetti-compito/blob/a5d14069fda8098c0d7280db16e2c4fa1c96fcad/c.py
-# ===============================
-
-from datetime import date
-
-def rimuoviLettereAccentate(parola):
-    parola_nuova= parola.replace('à','a').replace('ò','o').replace('ù','u').replace('è','e').replace('é','e').replace('ì','i').replace('ñ','n').replace('ö','o').replace('Ö','o').replace('Ä','a').replace('ä','a')
-    return parola_nuova
 
 def chiediComune(comuni):
     fine=False
@@ -153,30 +142,20 @@ def calcolaCodiceNome(nome):
             vocale += c
     if len(consonante) >= 4:
        return consonante[0] + consonante[2] + consonante[3]
-    cd = (consonante + vocali)[:3]
+    cd = (consonante + vocale)[:3]
     while len(cd) < 3:
             cd += "X"
     return cd
 
-def rimuoviSpazi(elemento):
-    elemento=elemento.replace(" ","")
-    return elemento
-
 comuni=['bergamo','stezzano','brembate','verdellino','verdello','dalmine','gessate','mozzo','curno','treviolo']
-
-
-# ===============================
-# BRANCH: samuel | FILE: codice.py
-# Source: https://github.com/samuelalborghetti/sara-bettinelli-alborghetti-compito/blob/853cbb74dd59521fb346dee37bf2d8c905cf63db/codice.py
-# ===============================
 
 def chiediNome() :
     controllo = True
     while controllo:
         nome = input("Inserisci il nome: ").strip()
         if nome.isalpha():
-            #nome = rimuoviLettereAccentate(nome)
-            #nome = rimuoviSpazi(nome)
+            nome = rimuoviLettereAccentate(nome)
+            nome = rimuoviSpazi(nome)
             return nome
         else:
             print("Nome non valido. Inserisci solo lettere.")
@@ -227,12 +206,19 @@ def calcolaCodiceControllo(cf_parziale):
 
 def calcolaCodiceFiscale(cognome, nome, data_nascita, sesso, comune):
     cf = ""  
-    #cf += calcolaCodiceCognome(cognome)
-    #cf += calcolaCodiceNome(nome)
-    #cf += calcolaCodiceAnno(data_nascita)
-    #cf += calcolaCodiceMese(data_nascita)
-    #cf += calcolaCodiceGiorno(data_nascita, sesso)
-    #cf += calcolaCodiceComune(comune)
-    #cf += calcolaCodiceControllo(cf)
+    cf += calcolaCodiceCognome(cognome)
+    cf += calcolaCodiceNome(nome)
+    cf += calcolaCodiceAnno(data_nascita)
+    cf += calcolaCodiceMese(data_nascita)
+    cf += calcolaCodiceGiorno(data_nascita, sesso)
+    cf += calcolaCodiceComune(comune)
+    cf += calcolaCodiceControllo(cf)
     return cf
-"""
+
+cognome = chiediCognome()
+nome = chiediNome()
+data_nascita = chiediDataNascita()
+sesso = chiediSesso()
+comune = chiediComune(comuni)
+codice_fiscale = calcolaCodiceFiscale(cognome, nome, data_nascita, sesso, comune)
+print("Il tuo codice fiscale è: " + codice_fiscale)
